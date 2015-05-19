@@ -1,0 +1,183 @@
+<html>
+<title>Graph</title>
+
+<head>
+  	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://dimplejs.org/dist/dimple.v2.1.0.min.js"></script>
+	<script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+<style>
+p.red { color: rgb(251, 128, 114); display: inline; }
+
+p.blue { color: rgb(128, 177, 211); display: inline; }
+
+div.blue {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(128, 177, 211);
+	display: inline;
+	color: rgb(128, 177, 211);
+	margin-right: 10px;
+}
+
+div.red {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(251, 128, 114);
+	display: inline;
+	color: rgb(251, 128, 114);
+	margin-right: 10px;	
+}
+
+.container {
+	padding: 0px 50px;
+}
+
+#chartContainer {
+	margin: 20px 0px;
+}
+
+.logos {
+	padding: 40px 0px;
+}
+
+footer {
+	padding-top: 50px;
+}
+</style>
+
+</head>
+
+<body>
+
+
+<h1 class="jumbotron">The Future of the Internet is Now</h1>
+
+<div class="container">
+
+<div class="row">
+	<h2>Living Without a Choice</h2>
+	<h3>Americans Are Often Offered One Choice or No Choice At All</h3>
+</div>
+
+<div class="row">
+	<div id="chartContainer"></div>
+	<div><div class="blue">.....</div><p class="blue">Likely Duopoly</p></div>
+	<div><div class="red">.....</div><p class="red">Monopoly or No Service Offered</p></div>
+</div>
+
+<hr />
+<div class="row">
+	<h2>When There is a Choice</h2>
+	<h3>Americans Choose From Some of the Most Hated Companies on the Planet</h3>
+	<div class="logos">
+		<img src="images\twc.png" style="zoom: 0.15"/>
+		<img src="images\comcast.png" style="zoom: 0.15" />
+		<img src="images\u-verse.png" />
+	</div>
+	<p>* According to a 2014 ACSI survey, they were the most disliked companies on the planet.</p>
+	
+</div>
+
+
+<footer>
+
+</footer>
+
+</div>
+
+<script>
+
+
+var dimensions = 300;
+var svg = dimple.newSvg("#chartContainer", dimensions, dimensions);
+
+var data0 = [
+		{ choice : 70, status : "likely duopoly", order : 1},
+        { choice : 30, status : "monopoly", order : 2},
+    ];
+
+
+var data1 = [
+		{ choice : 25, status : "likely duopoly", order : 1},
+        { choice : 75, status : "monopoly", order : 2},
+    ];
+
+var data2 = [
+		{ choice : 18, status : "likely duopoly", order : 1},
+        { choice : 82, status : "monopoly", order : 2}
+    ];
+    
+
+	var four = new dimple.chart(svg, data0);
+	var twentyfive = new dimple.chart(svg, data1);
+	var fifty = new dimple.chart(svg, data2);
+
+    four.setBounds(0, 0, dimensions, dimensions);
+	four.addCategoryAxis("p", "status");
+    four.addMeasureAxis("p", "choice");
+    
+    twentyfive.setBounds(0, 0, dimensions, dimensions);
+    twentyfive.addCategoryAxis("p", "status");
+    twentyfive.addMeasureAxis("p", "choice");
+    
+    fifty.setBounds(0, 0, dimensions, dimensions);
+    fifty.addCategoryAxis("p", "status");
+    fifty.addMeasureAxis("p", "choice");
+    
+    var outerRing = four.addSeries(["choice", "status"], dimple.plot.pie);
+	var middleRing = twentyfive.addSeries(["choice", "status"], dimple.plot.pie);
+	var innerRing = fifty.addSeries(["choice", "status"], dimple.plot.pie);
+
+      outerRing.addOrderRule("order");
+      middleRing.addOrderRule("order");
+      innerRing.addOrderRule("order");
+                  	
+      outerRing.innerRadius = "-30px";
+      middleRing.outerRadius = "-40px";
+      middleRing.innerRadius = "-70px";
+      innerRing.outerRadius = "-80px";
+      innerRing.innerRadius = "-110px";   
+
+            outerRing.getTooltipText = function (e) {
+                return [
+                    "4-10 Mbps Speeds"
+                ];
+            };       
+
+            middleRing.getTooltipText = function (e) {
+                return [
+                    "25 Mbps Speeds"
+                ];
+            }; 
+            
+            innerRing.getTooltipText = function (e) {
+                return [
+                    "50 Mbps Speeds"
+                ];
+            };         
+	
+	four.draw();		
+	twentyfive.draw();
+	fifty.draw();	
+
+</script>
+
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      
+</body>
+
+
+</html>
